@@ -25,6 +25,11 @@ SESSIONS_CSV = {
     'vision': OUT_DIR / 'sessions_vision.csv',
 }
 
+OCCUPANCY_NPZ = {
+    'odor':   OUT_DIR / 'occupancy.npz',
+    'vision': OUT_DIR / 'occupancy_vision.npz',
+}
+
 # Session types that enter the analysis. cbm-odor's 'o' and 't' sessions were shaping
 # sessions; they are still reduced to trials and visits but dropped on load.
 SESSION_TYPES = {'odor': ['x'], 'vision': ['v']}
@@ -83,3 +88,6 @@ MOVE_SPEED = 50                  # px/s; slower than this counts as a pause (the
 RESAMPLE_STEP = 40               # px of path between the points turning is measured at
 STRAIGHT_SCALE = 480             # px of path straightness is measured over (about 2.7 cells)
 SEARCH_PHASES = [0, 4, 10, 25]   # s into a search; paths are described separately for each stretch (the last is open-ended)
+
+# Occupancy maps (occupancy.py): bins across x and along y, a quarter of a target cell on a side.
+OCC_BINS = (4 * GRID_COLS, 4 * GRID_ROWS)

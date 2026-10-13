@@ -70,6 +70,18 @@ Describes the shape of the search paths (pausing, speed, turning, straightness, 
 
 Result: with experience mice pause less, cover more ground and leave the walls; their paths get only slightly straighter, and only between the odor and vision experiments. A good session is one in which the mouse moves more vigorously (faster, straighter, fewer pauses), but a given distance does not check more cells. Searches get slower and more tortuous the longer they last, so measures are compared at the same point in a search.
 
+### 6. `odor_search_strategy_30min.ipynb`
+
+Notebook 1 repeated on the trials that began in the first 30 minutes of each session, when mice are most engaged, followed by a comparison of the first 30 minutes with the rest of the session.
+
+Result: mice are clearly less engaged after 30 minutes (fewer trials per minute, longer searches), but the odor effect is not stronger in the first 30 minutes. It is slightly weaker there than over the whole session, and nominally largest after 30 minutes, though that difference is not reliable.
+
+### 7. `occupancy.ipynb`
+
+Heat maps of where each mouse's body is while it searches: every session of every mouse, each mouse against the average mouse, the last four sessions minus the first four, and the best sessions minus the worst.
+
+Result: each mouse has its own map and keeps it from the odor sessions to the vision sessions. Occupancy shifts from the walls to the interior over the whole history (wall lane 51% of search time to 42%) and in a mouse's best sessions compared with its worst, but changes little within either experiment.
+
 ## Code
 
 The notebooks are the only code in the base directory. Everything they share is in the `src/` package, and the tables they load are in `output/`.
@@ -80,8 +92,9 @@ The notebooks are the only code in the base directory. Everything they share is 
 | `src/trials.py` | Reduces each session to one row per trial: search time, path length, zones entered, whether the mouse left the correct end. |
 | `src/visits.py` | Breaks each search into visits to the two ends: residence time, outcome (switch or find), and when each target cell was first entered. |
 | `src/trajectories.py` | Describes each search path on the SLEAP body centroid, by how long the search has been going, and totals the ground covered in each session. |
+| `src/occupancy.py` | Builds one occupancy map per session (time per bin for the body centroid), separately for search and non-search time. |
 | `src/stats.py` | Stratified two-group comparisons with permutation tests, per-mouse summaries, hazard and Kaplan-Meier estimates. |
-| `output/` | The tables the notebooks load: `trials`, `visits`, `trajectories` and `sessions`, each as `<name>.csv` for odor and `<name>_vision.csv` for vision. |
+| `output/` | The tables the notebooks load: `trials`, `visits`, `trajectories` and `sessions`, each as `<name>.csv` for odor and `<name>_vision.csv` for vision, plus the occupancy maps as `occupancy.npz` and `occupancy_vision.npz`. |
 
 ## Rebuilding
 
@@ -91,6 +104,7 @@ The notebooks read the tables in `output/`, so they run without the raw data. To
 python -m src.trials          # both experiments; add `vision` or `odor` for one
 python -m src.visits
 python -m src.trajectories
+python -m src.occupancy
 ```
 
 Then re-run the notebooks. The matched comparisons use 5,000-shuffle permutation tests and take a minute or two per notebook.
