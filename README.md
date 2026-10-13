@@ -76,11 +76,17 @@ Notebook 1 repeated on the trials that began in the first 30 minutes of each ses
 
 Result: mice are clearly less engaged after 30 minutes (fewer trials per minute, longer searches), but the odor effect is not stronger in the first 30 minutes. It is slightly weaker there than over the whole session, and nominally largest after 30 minutes, though that difference is not reliable.
 
-### 7. `occupancy.ipynb`
+### 7. `occupancy_centroid.ipynb`
 
-Heat maps of where each mouse's body is while it searches: every session of every mouse, each mouse against the average mouse, the last four sessions minus the first four, and the best sessions minus the worst.
+Heat maps of where each mouse's body is in each behavioral epoch (appetitive, consummatory, drinking), and for the search (appetitive) epoch: every session of every mouse, each mouse against the average mouse, the last three sessions minus the first three, and the best sessions minus the worst.
 
 Result: each mouse has its own map and keeps it from the odor sessions to the vision sessions. Occupancy shifts from the walls to the interior over the whole history (wall lane 51% of search time to 42%) and in a mouse's best sessions compared with its worst, but changes little within either experiment.
+
+### 8. `occupancy_nose.ipynb`
+
+Notebook 7 with the SLEAP nose in place of the body centroid: where the mouse is checking, not where its body is.
+
+Result: the same story as the body maps. The nose is outside the target grid, where no target can be, for 42% of search time in odor and 36% in vision; that share falls over the whole history (46% to 35%) and is lower in a mouse's best sessions than in its worst.
 
 ## Code
 
@@ -92,9 +98,10 @@ The notebooks are the only code in the base directory. Everything they share is 
 | `src/trials.py` | Reduces each session to one row per trial: search time, path length, zones entered, whether the mouse left the correct end. |
 | `src/visits.py` | Breaks each search into visits to the two ends: residence time, outcome (switch or find), and when each target cell was first entered. |
 | `src/trajectories.py` | Describes each search path on the SLEAP body centroid, by how long the search has been going, and totals the ground covered in each session. |
-| `src/occupancy.py` | Builds one occupancy map per session (time per bin for the body centroid), separately for search and non-search time. |
+| `src/epochs.py` | Labels every frame as appetitive (searching), consummatory (target found, heading to the port) or drinking, as in cluster-states-viewer. |
+| `src/occupancy.py` | Builds occupancy maps per session (time per bin) for the body centroid and for the nose, one per epoch. |
 | `src/stats.py` | Stratified two-group comparisons with permutation tests, per-mouse summaries, hazard and Kaplan-Meier estimates. |
-| `output/` | The tables the notebooks load: `trials`, `visits`, `trajectories` and `sessions`, each as `<name>.csv` for odor and `<name>_vision.csv` for vision, plus the occupancy maps as `occupancy.npz` and `occupancy_vision.npz`. |
+| `output/` | The tables the notebooks load: `trials`, `visits`, `trajectories` and `sessions`, each as `<name>.csv` for odor and `<name>_vision.csv` for vision, plus the occupancy maps as `occupancy*.npz` (body centroid) and `occupancy_nose*.npz` (nose). |
 
 ## Rebuilding
 
@@ -113,7 +120,7 @@ Requires numpy, pandas, scipy and matplotlib.
 
 ## Conventions used throughout
 
-- **A search** runs from the first frame of a trial to the frame the target is found. Walking to the port, drinking and the ITI are not part of it.
+- **A search** runs from the first frame of a trial to the frame the target is found. Walking to the port, drinking and the ITI are not part of it. The two occupancy notebooks instead use the lab's appetitive epoch, which starts when the mouse leaves the port and so includes the ITI.
 - **Position** is the nose point the task tracked online (`bonsai_centroid`). It sticks and jumps, so path shape in notebook 5 is measured on the SLEAP body centroid instead, and distances there are about 60% of the nose-path distances in notebooks 1-4.
 - **Dropped everywhere**: trial 0 of each session (free reward) and trials where the target was never found.
 - **Dropped from cost and patch analyses**: searches longer than 120 s (`MAX_SEARCH_S`), and trials with the target in the middle row.
