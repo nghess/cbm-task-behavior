@@ -29,6 +29,9 @@ OCCUPANCY_NPZ = {       # by tracked point, then experiment
     'centroid': {'odor': OUT_DIR / 'occupancy.npz', 'vision': OUT_DIR / 'occupancy_vision.npz'},
     'nose':     {'odor': OUT_DIR / 'occupancy_nose.npz', 'vision': OUT_DIR / 'occupancy_nose_vision.npz'},
 }
+OCCUPANCY_FLIP_NPZ = {  # nose maps split by flip state and target end (occupancy_flip.py)
+    'odor': OUT_DIR / 'occupancy_flip_nose.npz', 'vision': OUT_DIR / 'occupancy_flip_nose_vision.npz',
+}
 
 # Session types that enter the analysis. cbm-odor's 'o' and 't' sessions were shaping
 # sessions; they are still reduced to trials and visits but dropped on load.
@@ -89,9 +92,9 @@ RESAMPLE_STEP = 40               # px of path between the points turning is meas
 STRAIGHT_SCALE = 480             # px of path straightness is measured over (about 2.7 cells)
 SEARCH_PHASES = [0, 4, 10, 25]   # s into a search; paths are described separately for each stretch (the last is open-ended)
 
-# Epochs (epochs.py): a frame counts as drinking only within this many seconds of a poke
-# pulse, as in cluster-states-viewer (FEEDING_GAP_TOLERANCE_S).
-FEEDING_GAP_S = 0.5
+# Epochs (epochs.py): a frame counts as consumption only within this many seconds of a poke
+# pulse, as in cluster-states-viewer (CONSUMPTION_GAP_TOLERANCE_S).
+CONSUMPTION_GAP_S = 0.5
 
 # Occupancy maps (occupancy.py): bins across x and along y, a quarter of a target cell on a side.
 OCC_BINS = (4 * GRID_COLS, 4 * GRID_ROWS)

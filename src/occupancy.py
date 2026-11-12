@@ -2,7 +2,7 @@
 
 The arena is cut into OCC_BINS bins (a quarter of a target cell on a side) and the
 time a tracked point spends in each is added up, separately for each behavioral
-epoch (appetitive, consummatory, drinking - see epochs.py). Maps are built for two
+epoch (search, retrieval, consumption - see epochs.py). Maps are built for two
 SLEAP points: the body centroid and the nose.
 
 Maps are in seconds, indexed [y bin, x bin]. Run as a script from the directory
